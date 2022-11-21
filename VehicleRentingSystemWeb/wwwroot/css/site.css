@@ -1,0 +1,22 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    /* background-image: url('../images/background images/homebackground.jpg');
+    background-size: 100%;*/
+    /* background-image: url('../images/background images/loginbackground.jpg');*/
+    /*background-image: url('../images/background images/auction.jpg');*/
+}

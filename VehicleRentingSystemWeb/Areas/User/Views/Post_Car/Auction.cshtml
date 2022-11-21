@@ -1,0 +1,62 @@
+﻿
+@model Bid
+<body style="background-image: url('../../../images/background images/auction.jpg');background-size: 90%;">
+<form method="post">
+    <input hidden asp-for="PostId" />
+   
+       
+    <div class=" mt-5 bg-light text-dark d-flex justify-content-center align-items-center border border-2 border-info rounded" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+
+
+     
+        
+           @if (User.IsInRole("Driver"))
+            {
+            <div class=" row p-3  " role="group" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+                <div class="col-2 rounded-circle ">
+                    <a asp-controller="Post_Car" asp-action="Plus" asp-route-postId="@Model.PostId" class="btn btn-success rounded-circle">
+                        <i class="bi bi-plus fs-4 fw-bold" style="color:azure">+</i>
+                    </a> &nbsp;
+                    </div>
+
+                <div class=" col-8 row pl-2">
+                        <div class="col-6 text-primary"><h4>Count</h4></div>
+                        <div class=" col-6 "><input asp-for="Bidding" class="form-control" /></div>
+                    </div>
+                <div class="col-2 ">
+                    <a asp-controller="Post_Car" asp-action="Minus" asp-route-postId="@Model.PostId" class="btn btn-info rounded-circle">
+                        <i class="bi bi-dash  fs-4 fw-bold">-</i>
+                        </a>
+                    </div>
+                   
+                </div>
+            }
+       
+    </div>
+
+    
+    <div class="card-footer">
+        <div class="row p-5">
+            <div class="col-12 col-md-4 pb-1">
+                <a class="btn btn-success form-control  btn-square btn-lg" style="height:50px;  background: linear-gradient(to right, #136a8a, #267871);" asp-action="Index">Back to Home</a>
+            </div>
+             @if (User.IsInRole("Driver"))
+               {
+                    <div class="col-12 col-md-4 pb-1">
+
+                    <button type="submit" value="Add to Cart" class=" btn-square btn-lg form-control" style="height:50px; color:white ; background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">Add</button>
+
+                    </div>
+               }
+            <div class="col-12 col-md-4 pb-1">
+                <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@Model.PostId" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #000046, #1cb5e0);">Bidding history</a>
+            </div>
+        </div>
+    </div>
+       
+        
+
+    
+</form>
+</body>
+

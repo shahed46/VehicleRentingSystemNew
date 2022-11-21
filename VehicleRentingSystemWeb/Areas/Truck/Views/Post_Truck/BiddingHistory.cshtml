@@ -1,0 +1,66 @@
+﻿@using System.Collections;
+@using VehicleRentingSystem.Models;
+
+
+ @model IEnumerable<TruckBid>
+
+
+
+
+
+<form method="post">
+    <br />
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0">
+            </div>
+
+
+            <div class="card-body">
+                @foreach (var item in Model)
+                {
+                    <div class=" d-flex align-items-center">
+                        <div class="col-12 text-sm-center col-lg-5  row">
+
+                            <div class="col-6 col-sm-4 col-lg-4 pt-2">
+
+
+                                @if (User.IsInRole("User"))
+                                {
+                                    @if (item.Confirmed == null)
+                                    {
+                                        <div class="w-75 btn-group" role="group">
+                                            <a asp-action="Confirm" asp-route-bidId="@item.Id" class="btn btn-primary">
+                                                <i class="bi bi-plus-square">Confirm</i>
+                                            </a>
+
+                                        </div>
+                                    }
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-12 text-sm-center col-lg-4 text-lg-left">
+                            <h5><strong>@item.ApplicationUser.Name</strong></h5>
+
+                        </div>
+                        <div class="col-12 text-sm-center col-lg-4 text-lg-left">
+                            <h5><strong>@item.Bidding</strong></h5>
+
+                        </div>
+
+
+
+
+                    </div>
+                    <hr />
+                }
+
+            </div>
+
+        </div>
+    </div>
+
+</form>

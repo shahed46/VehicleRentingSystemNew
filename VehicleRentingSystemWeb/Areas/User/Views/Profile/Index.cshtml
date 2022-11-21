@@ -1,0 +1,76 @@
+﻿@model VehicleRentingSystem.Models.ViewModels.ProfileVM
+<div>
+    <h1>Profile page</h1>
+</div>
+<div class="row">
+    <div class="col-4 bg-light border border-2">
+    @foreach(var item in Model.applicationUser)
+    {
+            
+              <div class="row">
+                       
+
+                 <div class="col-12 text-sm-center  text-lg-left">
+                     <h5><strong>@item.Name</strong></h5>
+                            
+                 </div>
+                <div class="col-12 text-sm-center  text-lg-left">
+                    <h5><strong>@item.City</strong></h5>
+
+                </div>
+                <div class="col-12 text-sm-center  text-lg-left">
+                    <h5><strong>@item.Area</strong></h5>
+
+                </div>
+                <div class="col-12 text-sm-center  text-lg-left">
+                    <h5>@item.LicenseNo</h5>
+
+                </div>
+        </div>
+       
+    }
+</div>
+<div class="col-8">
+    @foreach(var item in Model.post_Cars)
+    {
+        <div class="col-lg-10 col-md-6">
+            <div class="row p-2">
+                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
+                    <div class="card">
+
+
+                        <div class="card-body">
+                            <div class="pl-1">
+                                    <p>Posted by:<b>@item.ApplicationUser.Name</b></p>
+
+                            </div>
+                            <div class="pl-1">
+                                <p class="card-title h5 text-primary">@item.PickUpLocation</p>
+                                <p class="card-title  text-info">@item.DropOutLoaction</p>
+                            </div>
+                            <div class="pl-1">
+                                <p>Number of passenger: <b>@item.NumberOfPassenger.ToString("0.00")</b></p>
+
+                            </div>
+                            <div class="row pl-2">
+                                <p class="text-secondary">@Html.Raw(item.Description)</p>
+                            </div>
+
+
+                        </div>
+                       
+
+                        <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@item.Id" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;">
+                            Bidding history
+                            </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>
+</div>
