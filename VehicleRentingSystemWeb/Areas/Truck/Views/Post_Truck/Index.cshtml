@@ -14,28 +14,32 @@
         <div class=" ">
             <div class=" p-2 ">
                 <div class="p-1 ">
-                    <div class="card " style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+                    <div class="" style="background: linear-gradient(to right, #83a4d4, #b6fbff); width:100%; height:100%;">
 
 
-                        <div class="card-body text-white">
-                            <div class="pl-1">
-                                <p class="card-title h5 " style="color:#00FF33"><b style="color:white">Pickup Location:</b> @post.PickUpLocation</p>
-                                <p class="card-title  text-danger"><b style="color:white">Dropout Location:</b> @post.DropOutLoaction</p>
+                        <div class=" text-white row overflow-hidden p-2  " style="width:100%; height:100%">
+                            <div class=" col-6  " style="  display: flex;
+flex-direction:column;
+  justify-content: center;
+  align-items: center; ">
+                                <div class=" text-start">
+                                    <p class="card-title  " style="color:#00FF33"><b style="color:white">Pickup Location:</b> @post.PickUpLocation</p>
+                                    <p class="card-title  text-danger"><b style="color:white">Dropout Location:</b> @post.DropOutLoaction</p>
+                                    <p class="card-title  ">Number Of Passenger: <b>@post.ProductName</b></p>
+                                    <p class="text-black card-title">@Html.Raw(post.Product_Des)</p>
+                                </div>
+                               
+                               
                             </div>
-                            <div class="pl-1">
-                                <p>Number Of Passenger: <b>@post.ProductName</b></p>
-
+                            <div class=" col-6 p-3 " style=" height:300px; ">
+                                <img src="@post.ImageUrl" class=" rounded" style="width:100%; height:100% "/>
                             </div>
-                            <div class="row pl-2">
-                                <p class="text-black">@Html.Raw(post.Product_Des)</p>
-                            </div>
-
 
                         </div>
 
                         @if (User.IsInRole("User"))
                         {
-                            <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" asp-route-postId="@post.Id" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #360033, #0b8793);">
+                            <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" asp-route-truckpostId="@post.Id" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #360033, #0b8793);">
                                 Bidding history
                             </a>
                         }

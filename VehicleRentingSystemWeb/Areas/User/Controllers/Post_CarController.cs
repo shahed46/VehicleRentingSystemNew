@@ -183,9 +183,29 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
         }
         public IActionResult BiddingHistory(int postId)
         {
-            IEnumerable<Bid> bidHistory = _unitOfWork.Bid.GetAll(u => u.PostId == postId, includeProperties: "ApplicationUser");
+            IEnumerable<Bid> biddings = _unitOfWork.Bid.GetAll(u => u.PostId == postId, includeProperties: "ApplicationUser");
+          
+           // return View(bidHistory);
 
-            return View(bidHistory);
+            BiddingHistoryVM biddingHistory = new()
+            {
+                bidHistory = _unitOfWork.Bid.GetAll(u => u.PostId == postId, includeProperties: "ApplicationUser"),
+                
+            };
+            foreach (var bookedChecking in biddings)
+            {
+                if (bookedChecking.Confirmed == true)
+                {
+                    biddingHistory.booked = true;
+                }
+                //else
+                //{
+                //    biddingHistory.booked = false;
+                //}
+               
+            }
+
+            return View(biddingHistory);
         }
 
         

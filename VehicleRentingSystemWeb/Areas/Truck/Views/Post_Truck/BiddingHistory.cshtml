@@ -2,7 +2,8 @@
 @using VehicleRentingSystem.Models;
 
 
- @model IEnumerable<TruckBid>
+@* @model IEnumerable<TruckBid>*@
+@model VehicleRentingSystem.Models.ViewModels.TruckBiddingHistoryVM
 
 
 
@@ -18,7 +19,7 @@
 
 
             <div class="card-body">
-                @foreach (var item in Model)
+                @foreach (var item in Model.bidHistory)
                 {
                     <div class=" d-flex align-items-center">
                         <div class="col-12 text-sm-center col-lg-5  row">
@@ -26,13 +27,35 @@
                             <div class="col-6 col-sm-4 col-lg-4 pt-2">
 
 
-                                @if (User.IsInRole("User"))
+                                
+
+                                @if (User.IsInRole("User") && Model.booked == false)
+                                {
+
+                                    <div class="w-75 btn-group" role="group">
+                                        <a asp-action="Confirm" asp-route-bidId="@item.Id" class="btn btn-primary">
+                                            <i class="bi bi-plus-square">Confirm</i>
+                                        </a>
+
+                                    </div>
+
+                                }
+                                @if (User.IsInRole("User") && Model.booked == true)
                                 {
                                     @if (item.Confirmed == null)
                                     {
                                         <div class="w-75 btn-group" role="group">
-                                            <a asp-action="Confirm" asp-route-bidId="@item.Id" class="btn btn-primary">
-                                                <i class="bi bi-plus-square">Confirm</i>
+                                            <a asp-action="Confirm" asp-route-bidId="@item.Id" class="btn btn-danger disabled">
+                                                <i class="bi bi-plus-square">Lost</i>
+                                            </a>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="w-75 btn-group" role="group">
+                                            <a asp-action="Confirm" asp-route-bidId="@item.Id" class="btn btn-success disabled">
+                                                <i class="bi bi-plus-square">Confirmed</i>
                                             </a>
 
                                         </div>

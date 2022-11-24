@@ -14,12 +14,14 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
     public class Post_TruckController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _hostEnvironment;
         private object postTruckFromDbFirst;
         public Bid Bid { get; set; }
 
-        public Post_TruckController(IUnitOfWork unitOfWork)
+        public Post_TruckController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
@@ -57,7 +59,7 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize]
-        public IActionResult Create(Post_Truck obj)
+        public IActionResult Create(Post_Truck obj, IFormFile file)
         {
             //getting logged user id
 
@@ -65,8 +67,22 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             //getting logged user id end
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+			if (file != null)
+			{
+				string fileName = Guid.NewGuid().ToString();
+				var uploads = Path.Combine(wwwRootPath, @"images/products");
+				var extension = Path.GetExtension(file.FileName);
+				//copying file in the product folder inside wwwroot
+				using (var filestreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+				{
+					file.CopyTo(filestreams);
+				}
+				//copying file in the product folder end
+				obj.ImageUrl = @"\images\products\" + fileName + extension;
+			}
 
-            obj.ApplicationUserId = claim.Value;
+			obj.ApplicationUserId = claim.Value;
 
           
                 _unitOfWork.Post_Truck.Add(obj);
@@ -140,7 +156,7 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
         }
 
         
-        public IActionResult Plus(TruckBid bidObj,  int postId)
+        public IActionResult Plus(TruckBid bidObj,  int truckpostId)
         {
             //getting logged user id
 
@@ -151,16 +167,17 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
 
             bidObj.ApplicationUserId = claim.Value;
             
-            IEnumerable<TruckBid> bidsFromDb = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == postId);
+            IEnumerable<TruckBid> bidsFromDb = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == truckpostId);
             int minBid = bidsFromDb.Min(u => u.Bidding);
 
             bidObj.Bidding=minBid+100;
+            bidObj.TruckPostId = truckpostId;
             _unitOfWork.TruckBid.Add(bidObj);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Minus(TruckBid bidObj, int postId)
+        public IActionResult Minus(TruckBid bidObj, int truckpostId)
         {
             //getting logged user id
 
@@ -172,20 +189,46 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
             bidObj.ApplicationUserId = claim.Value;
             
 
-            IEnumerable<TruckBid> bidsFromDb = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == postId);
+            IEnumerable<TruckBid> bidsFromDb = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == truckpostId);
             int minBid = bidsFromDb.Min(u => u.Bidding);
 
             bidObj.Bidding = minBid - 100;
+            bidObj.TruckPostId = truckpostId;
             _unitOfWork.TruckBid.Add(bidObj);
             _unitOfWork.Save();
 
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult BiddingHistory(int postId)
+        public IActionResult BiddingHistory(int truckpostId)
         {
-            IEnumerable<TruckBid> bidHistory = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == postId, includeProperties: "ApplicationUser");
+            //IEnumerable<TruckBid> truckbidHistory = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == truckpostId, includeProperties: "ApplicationUser");
 
-            return View(bidHistory);
+
+            //return View(truckbidHistory);
+
+            IEnumerable<TruckBid> biddings = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == truckpostId, includeProperties: "ApplicationUser");
+
+            // return View(bidHistory);
+
+            TruckBiddingHistoryVM biddingHistory = new()
+            {
+                bidHistory = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == truckpostId, includeProperties: "ApplicationUser"),
+
+            };
+            foreach (var bookedChecking in biddings)
+            {
+                if (bookedChecking.Confirmed == true)
+                {
+                    biddingHistory.booked = true;
+                }
+                //else
+                //{
+                //    biddingHistory.booked = false;
+                //}
+
+            }
+
+            return View(biddingHistory);
         }
 
         

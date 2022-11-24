@@ -1,6 +1,6 @@
 ﻿@model VehicleRentingSystem.Models.Post_Truck
 <div class="row">
-	<div class="col-7">
+	<div class="col-5">
 		<form method="post" asp-action="Create" enctype="multipart/form-data">
 
 
@@ -32,6 +32,11 @@
 							<input asp-for="PickUpDate" class="form-control" />
 							<span asp-validation-for="PickUpDate" class="text-danger"></span>
 						</div>
+						<div class="mb-3 col-6">
+							<label style="color:indigo" asp-for="ImageUrl">Product Image</label>
+							<input type="file" name="file" class="form-control" />
+							
+						</div>
 						<div class="mb-3">
 							<label style="color:indigo" asp-for="Product_Des"></label>
 							<textarea asp-for="Product_Des" class="form-control"></textarea>
@@ -55,7 +60,7 @@
 
 		</form>
 	</div>
-	<div class="col-5 p-5" style="background-image: url('../../../images/background images/loginbackground.jpg');background-size: 110%;">
+	<div class="col-7 p-5" style="background-image: url('../../../images/background images/truckpost.jpg');background-size: 100%; background-repeat:no-repeat; background-position:center">
 	</div>
 
 </div>

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VehicleRentingSystem.Models.ViewModels
 {
-    public class BiddingHistoryVM
+    public class TruckBiddingHistoryVM
     {
-        public IEnumerable<Bid> bidHistory { get; set; }
+        public IEnumerable<TruckBid> bidHistory { get; set; }
         IEnumerable<ApplicationUser> applicationUser { get; set; }
         public bool booked { get; set; }
     }
