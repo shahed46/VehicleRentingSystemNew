@@ -219,19 +219,47 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 
             //getting logged user id end
             var bidItem = _unitOfWork.Bid.GetFirstOrDefault(u => u.Id == bidId);
-            var postOwner=_unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == bidItem.PostId);
+            var postOwner = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == bidItem.PostId);
             if (postOwner.ApplicationUserId == claim.Value)
             {
                 bidItem.Confirmed = true;
                 _unitOfWork.Bid.Update(bidItem);
                 _unitOfWork.Save();
+                TempData["success"] = "Confirmed successfully";
             }
             else
             {
-                throw new Exception("You dont have right to confirm");
+                //throw new Exception("You dont have right to confirm");
+                TempData["error"] = "You are not allowed";
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BiddingHistory));
+
+            //try
+            //{
+            //    //getting logged user id
+
+            //    var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //    var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            //    //getting logged user id end
+            //    var bidItem = _unitOfWork.Bid.GetFirstOrDefault(u => u.Id == bidId);
+            //    var postOwner = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == bidItem.PostId);
+            //    if (postOwner.ApplicationUserId == claim.Value)
+            //    {
+            //        bidItem.Confirmed = true;
+            //        _unitOfWork.Bid.Update(bidItem);
+            //        _unitOfWork.Save();
+
+            //    }
+
+
+            //}
+            //catch (Exception)
+            //{
+            //    ViewBag.Message = "You are not allowed";
+            //}
+            //return RedirectToAction(nameof(Index));
         }
 
     }

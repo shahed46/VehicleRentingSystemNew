@@ -19,24 +19,40 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
             _unitOfWork = unitOfWork;
             //_userManager = userManager;
         }
-        public IActionResult Index()
+        public IActionResult Index(string? userId)
         {
-           
-            //getting logged user id
-
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            //var claim = claimsIdentity.FindFirst(ClaimTypes.Email);
-
-            //getting logged user id end
-            ProfileVM profileVM = new()
+            if (userId == null)
             {
-                post_Cars = _unitOfWork.Post_Car.GetAll(u => u.ApplicationUserId == claim.Value),
-                applicationUser = _unitOfWork.ApplicationUser.GetAll(u => u.Id == claim.Value),
-              
-            };
-           
-            return View(profileVM);
+
+
+                //getting logged user id
+
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                //var claim = claimsIdentity.FindFirst(ClaimTypes.Email);
+
+                //getting logged user id end
+                ProfileVM profileVM = new()
+                {
+                    post_Cars = _unitOfWork.Post_Car.GetAll(u => u.ApplicationUserId == claim.Value),
+                    applicationUser = _unitOfWork.ApplicationUser.GetAll(u => u.Id == claim.Value),
+
+                };
+                return View(profileVM);
+
+            }
+            else
+            {
+                ProfileVM profileVM = new()
+                {
+                    post_Cars = _unitOfWork.Post_Car.GetAll(u => u.ApplicationUserId == userId),
+                    applicationUser = _unitOfWork.ApplicationUser.GetAll(u => u.Id == userId),
+
+                };
+                return View(profileVM);
+
+            }
+            
         }
 
 

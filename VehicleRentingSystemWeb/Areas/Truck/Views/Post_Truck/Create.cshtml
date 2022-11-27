@@ -6,49 +6,49 @@
 
 			<div class="row">
 				<div class="col-10">
-					<div class="border p-3 mt-4 row">
+					<div class="border rounded-3  p-3 mt-4 row" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
 						<div class="col-12 pb-2">
 
-							<hr />
+							<hr style="background-color:darkmagenta" />
 						</div>
 						@*<div asp-validation-summary="All"></div>*@
-						<div class="mb-3">
+						<div class="mb-3" >
 							<label style="color:indigo" asp-for="PickUpLocation"></label>
-							<input asp-for="PickUpLocation" class="form-control" />
+							<input asp-for="PickUpLocation" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 							<span asp-validation-for="PickUpLocation" class="text-danger"></span>
 						</div>
 						<div class="mb-3">
 							<label style="color:indigo" asp-for="DropOutLoaction"></label>
-							<textarea asp-for="DropOutLoaction" class="form-control"></textarea>
+							<textarea asp-for="DropOutLoaction" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);"></textarea>
 							<span asp-validation-for="DropOutLoaction" class="text-danger"></span>
 						</div>
 						<div class="mb-3 col-6">
 							<label style="color:indigo" asp-for="ProductName"></label>
-							<input asp-for="ProductName" class="form-control" />
+							<input asp-for="ProductName" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 							<span asp-validation-for="ProductName" class="text-danger"></span>
 						</div>
 						<div class="mb-3 col-6">
 							<label style="color:indigo" asp-for="PickUpDate"></label>
-							<input asp-for="PickUpDate" class="form-control" />
+							<input asp-for="PickUpDate" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 							<span asp-validation-for="PickUpDate" class="text-danger"></span>
 						</div>
-						<div class="mb-3 col-6">
+						<div class="mb-3 ">
 							<label style="color:indigo" asp-for="ImageUrl">Product Image</label>
-							<input type="file" name="file" class="form-control" />
+							<input type="file" name="file" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 							
 						</div>
 						<div class="mb-3">
 							<label style="color:indigo" asp-for="Product_Des"></label>
-							<textarea asp-for="Product_Des" class="form-control"></textarea>
+							<textarea asp-for="Product_Des" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);"></textarea>
 							<span asp-validation-for="Product_Des" class="text-danger"></span>
 						</div>
 
 
 
 
-						<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+						<button type="submit" class="btn btn-primary" style="width:150px; ">Create</button>
 
-						<a asp-controller="Post_Truck" asp-action="Index" class="btn btn-secondary" style="width:150px">
+						<a asp-controller="Post_Truck" asp-action="Index" class="btn btn-secondary" style="width:150px;">
 							Back to Feed
 						</a>
 					</div>
