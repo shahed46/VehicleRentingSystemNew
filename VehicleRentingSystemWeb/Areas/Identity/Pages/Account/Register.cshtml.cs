@@ -34,6 +34,7 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -41,7 +42,9 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IWebHostEnvironment hostEnvironment)
+            
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,6 +53,7 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _hostEnvironment = hostEnvironment;
         }
 
         /// <summary>
@@ -112,6 +116,7 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
             public string? PhoneNumber { get; set; }
             public string? LicenseNo { get; set; }
             public string? VehicleNo { get; set; }
+            public string? ProfilePic { get; set; }
             public string? Role { get; set; }
             
             [ValidateNever]
@@ -140,7 +145,7 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
 
         }
 
-        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(IFormFile? file, string? returnUrl = null )
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -150,6 +155,24 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                //profile pic
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images/profile");
+                    var extension = Path.GetExtension(file.FileName);
+                    //copying file in the product folder inside wwwroot
+                    using (var filestreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(filestreams);
+                    }
+                    //copying file in the product folder end
+                    user.ProfilePic = @"\images\profile\" + fileName + extension;
+                }
+
+                //profile pic end
                 user.Name=Input.Name;
                 user.Area=Input.Area;
                 user.City=Input.City;

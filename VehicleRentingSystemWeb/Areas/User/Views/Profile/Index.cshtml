@@ -1,15 +1,16 @@
 ﻿@model VehicleRentingSystem.Models.ViewModels.ProfileVM
-<div>
-    <h1>Profile page</h1>
-</div>
-<div class="row">
+
+<div class="row p-2">
+   
     <div class="col-4 bg-light border border-2">
     @foreach(var item in Model.applicationUser)
     {
             
               <div class="row">
-                       
 
+                <div class="col-12 border-right">
+                    <div class=" align-items-center text-center p-3"><img class="rounded-circle mt-5" width="150px" src="@item.ProfilePic"  /><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+                </div>
                  <div class="col-12 text-sm-center  text-lg-left">
                      <h5><strong>@item.Name</strong></h5>
                             
@@ -29,6 +30,7 @@
         </div>
        
     }
+        
 </div>
 <div class="col-8">
     @foreach(var item in Model.post_Cars)

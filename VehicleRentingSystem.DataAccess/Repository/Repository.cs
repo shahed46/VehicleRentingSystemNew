@@ -24,7 +24,7 @@ namespace VehicleRentingSystem.DataAccess.Repository
         }
 
         //includeProperties- "Category, CoverType"
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null,  string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
             if (filter != null)

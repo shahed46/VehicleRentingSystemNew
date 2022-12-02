@@ -6,6 +6,7 @@ using VehicleRentingSystem.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Linq.Expressions;
 
 namespace VehicleRentingSystemWeb.Areas.User.Controllers
 {
@@ -23,15 +24,19 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
         }
         public IActionResult Index()
         {
-            //IEnumerable<Post_Car> objPostCaryList = _unitOfWork.Post_Car.GetAll(includeProperties: "Bid");
+            IEnumerable<Post_Car> objPostList = _unitOfWork.Post_Car.GetAll();
             //return View(objPostCaryList);
             PostVM postVM = new()
             {
-                objPostCart = _unitOfWork.Post_Car.GetAll(),
-                
+                //objPostCart = _unitOfWork.Post_Car.GetAll(),
+                objPostCart = objPostList.OrderByDescending(u=>u.Id),
+
             };
+           
             return View(postVM);
         }
+
+        
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
@@ -41,7 +46,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
         //    {
         //        _unitOfWork.Bid.Add(obj);
         //        _unitOfWork.Save();
-                
+
         //    }
         //    return View(obj);
         //}     

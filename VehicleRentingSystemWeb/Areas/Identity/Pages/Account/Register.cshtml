@@ -8,9 +8,9 @@
 
 <div class="row p-3">
     <div class=" border rounded-3 col-6 p-3" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
-        
 
-          <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <h2 style="text-align:center; color:darkblue; font-family:'Times New Roman', Times, serif">Sign up</h2>
               <h5 style="text-align:center">Create a new account.</h5>
             <hr />
@@ -41,6 +41,11 @@
                         <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="username" aria-required="true" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
                         <label asp-for="Input.PhoneNumber"></label>
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating p-2 ">
+                        <label style="color:indigo" asp-for="Input.ProfilePic">Profile picture</label>
+                        <input type="file" name="file" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
+
                     </div>
 
             </div>

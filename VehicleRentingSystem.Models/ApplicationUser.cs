@@ -20,6 +20,7 @@ namespace VehicleRentingSystem.Models
         public string? LicenseNo { get; set; }
         public string? VehicleNo { get; set; }
         public string? CarPicUrl { get; set; }
+        public string? ProfilePic { get; set; }
 
 
 

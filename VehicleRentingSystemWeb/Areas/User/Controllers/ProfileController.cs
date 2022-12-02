@@ -36,6 +36,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
                 {
                     post_Cars = _unitOfWork.Post_Car.GetAll(u => u.ApplicationUserId == claim.Value),
                     applicationUser = _unitOfWork.ApplicationUser.GetAll(u => u.Id == claim.Value),
+                    bidHistory = _unitOfWork.Bid.GetFirstOrDefault(u => u.Confirmed == true),
 
                 };
                 return View(profileVM);
