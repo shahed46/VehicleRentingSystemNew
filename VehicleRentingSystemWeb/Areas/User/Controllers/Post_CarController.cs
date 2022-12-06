@@ -12,6 +12,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 {
     [Area("User")]
     [Authorize]
+    
     public class Post_CarController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -32,6 +33,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
                 objPostCart = objPostList.OrderByDescending(u=>u.Id),
 
             };
+            
            
             return View(postVM);
         }
@@ -86,39 +88,28 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 
         public IActionResult Auction(int postId)
         {
+            double? lowest;
+            IEnumerable<Bid>? bidList = _unitOfWork.Bid.GetAll(u => u.PostId == postId);
+            if (bidList.Count() != 0)
+            {
+                lowest = bidList.Min(u => u.Bidding);
+            }
+            else
+            {
+                lowest = 0;
+            }
+
+           
+
             Bid bid = new Bid()
             {
                 PostId = postId,
-            };
+               MinBid=lowest,
+                
 
+        };
 
-
-
-            ////var categoryFromDbFirst = _unitOfWork.Bid.GetFirstOrDefault(u => u.PostId == postId);
-            //IEnumerable<Bid> bidsFromDb = _unitOfWork.Bid.GetAll(u => u.PostId == postId);
-            ////int minBid = bidsFromDb.Min(u => u.Bidding);
-            //if (bidsFromDb == null)
-            //{
-            //    Bid bid = new Bid()
-            //    {
-            //        PostId = postId,
-            //    };
-            //    return View(bid);
-            //}
-            //else
-            //{
-            //    int minBid = bidsFromDb.Min(u => u.Bidding);
-            //    Bid bidObj = new Bid()
-            //    {
-            //        PostId = postId,
-            //        Bidding = minBid,
-            //    };
-
-
-
-
-            //    return View(bidObj);
-            //}
+  
             return View(bid);
 
         }

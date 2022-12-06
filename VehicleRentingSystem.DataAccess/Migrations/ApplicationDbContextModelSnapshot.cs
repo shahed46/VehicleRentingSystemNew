@@ -320,8 +320,8 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.Property<int>("NumberOfPassenger")
                         .HasColumnType("int");
 
-                    b.Property<string>("PickUpDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("PickUpDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PickUpLocation")
                         .IsRequired()

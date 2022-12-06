@@ -17,7 +17,7 @@ namespace VehicleRentingSystem.Models
         public string DropOutLoaction { get; set; }
         public int NumberOfPassenger { get; set; }
         public string? Description { get; set; }
-        public string? PickUpDate { get; set; }
+        public DateTime? PickUpDate { get; set; }
 
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]

@@ -3,35 +3,40 @@
 <body style="background-image: url('../../../images/background images/auction.jpg');background-size: 90%;">
 <form method="post">
     <input hidden asp-for="PostId" />
-   
-       
-    <div class=" mt-5 bg-light text-dark d-flex justify-content-center align-items-center border border-2 border-info rounded" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+
+
+        <div class=" mt-5 bg-light text-dark d-flex justify-content-center align-items-center border border-2 border-info rounded" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
 
 
      
         
-           @if (User.IsInRole("Driver"))
-            {
+           @*@if (User.IsInRole("Driver"))
+            {*@
             <div class=" row p-3  " role="group" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
-                <div class="col-2 rounded-circle ">
-                    <a asp-controller="Post_Car" asp-action="Plus" asp-route-postId="@Model.PostId" class="btn btn-success rounded-circle">
-                        <i class="bi bi-plus fs-4 fw-bold" style="color:azure">+</i>
-                    </a> &nbsp;
-                    </div>
+                    <div class="col-2 rounded-circle ">
+                        <a asp-controller="Post_Car" asp-action="Plus" asp-route-postId="@Model.PostId" class="btn btn-success rounded-circle">
+                            <i class="bi bi-plus fs-4 fw-bold" style="color:azure">+</i>
+                        </a> &nbsp;
+                        </div>
 
-                <div class=" col-8 row pl-2">
-                        <div class="col-6 text-primary"><h4>Count</h4></div>
-                        <div class=" col-6 "><input asp-for="Bidding" class="form-control" /></div>
-                    </div>
-                <div class="col-2 ">
-                    <a asp-controller="Post_Car" asp-action="Minus" asp-route-postId="@Model.PostId" class="btn btn-info rounded-circle">
-                        <i class="bi bi-dash  fs-4 fw-bold">-</i>
-                        </a>
-                    </div>
+                    <div class=" col-8 row pl-2">
+                            <div class="col-6 text-primary"><h4>Count</h4></div>
+                            <div class=" col-6 "><input asp-for="Bidding" class="form-control" /></div>
+                        </div>
+                    <div class="col-2 ">
+                        <a asp-controller="Post_Car" asp-action="Minus" asp-route-postId="@Model.PostId" class="btn btn-info rounded-circle">
+                            <i class="bi bi-dash  fs-4 fw-bold">-</i>
+                            </a>
+                        </div>
                    
                 </div>
-            }
-       
+            @*}*@
+           @* <div class=" ps-lg-2  m-2 d-flex border border-2 border-info rounded  " style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+                <div class="row justify-content-center align-items-center">
+                <div class="col-8 ps-3" style="color:white"><h4>Lowest Bid</h4></div>
+                    <div class=" col-3 " style="color:darkgreen"><p><h2>@Model.MinBid</h2></p></div>
+                </div>
+            </div>*@
     </div>
 
     
