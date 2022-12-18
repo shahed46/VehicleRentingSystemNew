@@ -97,9 +97,22 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
 
         public IActionResult Auction(int postId)
         {
+            double? lowest;
+            IEnumerable<TruckBid>? bidList = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == postId);
+            if (bidList.Count() != 0)
+            {
+                lowest = bidList.Min(u => u.Bidding);
+            }
+            else
+            {
+                lowest = 0;
+            }
+
+
             TruckBid truckbid = new TruckBid()
             {
                 TruckPostId = postId,
+                MinBid=lowest,
             };
 
 

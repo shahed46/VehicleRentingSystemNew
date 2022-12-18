@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg " style="background: linear-gradient(to right, #0f0c29, #302b63, #24243e);">
+        <nav class="navbar navbar-expand-lg " id="nav" style="background: linear-gradient(to right, #0f0c29, #302b63, #24243e); z-index:9999">
   <div class="container-fluid">
    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
                         <li class="nav-item">
                             <a class="nav-link " style="color:azure" asp-area="Truck" asp-controller="Post_Truck" asp-action="Index">Truck</a>
                         </li>
-        <li class="nav-item dropdown">
+@*        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:azure">Admin</a>
           <div class="dropdown-menu">
           <a class="nav-link " asp-area="User" asp-controller="City" asp-action="Index">City</a>
@@ -43,7 +43,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </div>
-        </li>
+        </li>*@
       </ul>
       <partial name="_LoginPartial" />
          @* <form class="d-flex">
@@ -81,3 +81,19 @@
         &copy; 2022 - VehicleRentingSystem developed by C181044 and C181072 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
+
+@*<script type="text/javascript">
+    var nav=document.getElementById('nav')
+    window.onscroll=function(){
+        if(window.pageYOffset>100)
+        {
+            nav.style.position="fixed";
+            nav.style.top=0;
+        }
+        else{
+            nav.style.position="absolute";
+            nav.style.top=100;
+        }
+        
+    }
+</script>*@

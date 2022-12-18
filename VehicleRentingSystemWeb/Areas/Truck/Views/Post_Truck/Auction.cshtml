@@ -1,6 +1,6 @@
 ﻿@model VehicleRentingSystem.Models.TruckBid 
 <body style="background-image: url('../../../images/background images/auction.jpg');background-size: 90%;">
-    <form method="post">
+    <form method="post" style="margin-top: 11%">
         <input hidden asp-for="TruckPostId" />
 
 
@@ -9,8 +9,8 @@
 
 
 
-            @if (User.IsInRole("Driver"))
-            {
+           @* @if (User.IsInRole("Driver"))
+            {*@
                 <div class=" row p-3  " role="group" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
                     <div class="col-2 rounded-circle ">
                         <a asp-controller="Post_Truck" asp-action="Plus" asp-route-truckpostId="@Model.TruckPostId" class="btn btn-success rounded-circle">
@@ -29,7 +29,14 @@
                     </div>
 
                 </div>
-            }
+           @* }*@
+
+            <div class=" ps-lg-2  m-2 d-flex  border border-2 border-info rounded " style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+                <div class="row  align-items-center ">
+                    <div class="col-6 pe-5 " style="color:white"><h4>Lowest Bid</h4></div>
+                    <div class=" col-6 pe-5  " style="color:#0007C4"><p><h2>@Model.MinBid</h2></p></div>
+                </div>
+            </div>
 
         </div>
 
