@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -128,20 +129,72 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
         {
             if (!_roleManager.RoleExistsAsync(SD.Role_User).GetAwaiter().GetResult())
             {
+               
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_User)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Driver)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
             }
             ReturnUrl = returnUrl;
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            Input = new InputModel()
+            //getting logged user id
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            //getting logged user id end
+
+
+
+
+            if (claim == null)
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+
+                Input = new InputModel()
                 {
-                    Text = i,
-                    Value = i
-                }),
+
+
+                    RoleList = _roleManager.Roles.Where(x => x.Name != "Admin" && x.Name != "Employee").Select(x => x.Name).Select(i => new SelectListItem
+                    {
+                        Text = i,
+                        Value = i
+                    }),
+
+
+
+                };
+            }
+
+            else
+            {
+                Input = new InputModel()
+                {
+
+
+                    RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                    {
+                        Text = i,
+                        Value = i
+                    }),
+
+
+
+                };
+            }
+
+            //Input = new InputModel()
+            //{
+                
+
+            //    RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+            //    {
+            //        Text = i,
+            //        Value = i
+            //    }),
+                   
+                    
                
-            };
+            //};
 
         }
 
@@ -211,7 +264,18 @@ namespace VehicleRentingSystemWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        if (User.IsInRole(SD.Role_Admin))
+                        {
+                            TempData["Success"] = "New user created";
+                           
+                        }
+                        else
+                        {
+
+
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }

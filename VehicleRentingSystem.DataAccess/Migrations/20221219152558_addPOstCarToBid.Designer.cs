@@ -12,8 +12,8 @@ using VehicleRentingSystem.DataAccess;
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221202143429_addDatetime")]
-    partial class addDatetime
+    [Migration("20221219152558_addPOstCarToBid")]
+    partial class addPOstCarToBid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -246,12 +246,14 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.Property<bool?>("Confirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Bids");
                 });
@@ -508,7 +510,13 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VehicleRentingSystem.Models.Post_Car", "Post_Car")
+                        .WithMany()
+                        .HasForeignKey("PostId");
+
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("Post_Car");
                 });
 
             modelBuilder.Entity("VehicleRentingSystem.Models.Post_Car", b =>

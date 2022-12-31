@@ -26,10 +26,36 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
         public IActionResult Index()
         {
             IEnumerable<Post_Car> objPostList = _unitOfWork.Post_Car.GetAll();
-            //return View(objPostCaryList);
+
+            //var post = _unitOfWork.Bid.GetAll(u => u.ApplicationUserId == claim.Value);
+            //if (post.Count() != null)
+            //{
+            //    foreach (var item in post)
+            //    {
+            //        if (item.Confirmed == true)
+            //        {
+            //            var confirmedPost = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == item.PostId);
+            //            confirmedPost.Confirm = true;
+            //        }
+            //    }
+            //}
+            foreach(var item in objPostList)
+            {
+                var post = _unitOfWork.Bid.GetAll(u => u.PostId==item.Id);
+                foreach(var item2 in post)
+                {
+                    if (item2.Confirmed == true)
+                    {
+                        //var confirmedPost = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == item.PostId);
+                        //confirmedPost.Confirm = true;
+                        item.Confirm = true;
+                    }
+                }
+            }
+
             PostVM postVM = new()
             {
-                //objPostCart = _unitOfWork.Post_Car.GetAll(),
+                
                 objPostCart = objPostList.OrderByDescending(u=>u.Id),
 
             };
@@ -40,18 +66,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 
         
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Index(PostVM obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _unitOfWork.Bid.Add(obj);
-        //        _unitOfWork.Save();
-
-        //    }
-        //    return View(obj);
-        //}     
+         
         //GET
         public IActionResult Create()
         {

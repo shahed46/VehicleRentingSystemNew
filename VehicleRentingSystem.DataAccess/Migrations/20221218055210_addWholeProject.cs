@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
-    public partial class addAllTables : Migration
+    public partial class addWholeProject : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,7 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     LicenseNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VehicleNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CarPicUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -235,7 +236,7 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     DropOutLoaction = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfPassenger = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PickUpDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PickUpDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -268,6 +269,28 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     table.PrimaryKey("PK_Post_Trucks", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Post_Trucks_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TruckBids",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TruckPostId = table.Column<int>(type: "int", nullable: false),
+                    Bidding = table.Column<int>(type: "int", nullable: false),
+                    Confirmed = table.Column<bool>(type: "bit", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TruckBids", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TruckBids_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -327,6 +350,11 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                 name: "IX_Post_Trucks_ApplicationUserId",
                 table: "Post_Trucks",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TruckBids_ApplicationUserId",
+                table: "TruckBids",
+                column: "ApplicationUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -363,6 +391,9 @@ namespace VehicleRentingSystem.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tests");
+
+            migrationBuilder.DropTable(
+                name: "TruckBids");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

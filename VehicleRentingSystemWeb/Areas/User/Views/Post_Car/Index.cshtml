@@ -11,6 +11,7 @@
     }
     @foreach (var post in Model.objPostCart)
     {
+        
         <div class=" ">
             <div class=" p-2 ">
                 <div class="p-1 ">
@@ -36,8 +37,14 @@
 
 
                         </div>
+                        @if(post.Confirm==true)
+                        {
+                            <a asp-action="BiddingHistory" class="btn  form-control" style=" background: linear-gradient(to right, #ed213a, #93291e); color:white" asp-route-postId="@post.Id">
+                                Confirmed & Go to history
+                            </a>
+                        }
 
-                        @if (User.IsInRole("User"))
+                        else if (User.IsInRole("User"))
                         {
                             <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@post.Id" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #360033, #0b8793);">
                                 Bidding history
@@ -45,6 +52,7 @@
                         }
                         else
                         {
+                            
 
                             <a asp-action="Auction" class="btn  form-control" style="background: linear-gradient(to right, #360033, #0b8793); color:white" asp-route-postId="@post.Id">
                                 Go For Bid

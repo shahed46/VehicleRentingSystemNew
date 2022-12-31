@@ -13,8 +13,12 @@ namespace VehicleRentingSystem.Models
     {
         [Key]
         public int Id { get; set; }
-        public int PostId { get; set; }
-       
+        public int? PostId { get; set; }
+        [ForeignKey("PostId")]
+        [ValidateNever]
+
+        public Post_Car Post_Car { get; set; }
+
         public int Bidding { get; set; }
         public bool? Confirmed { get; set; }
         public string ApplicationUserId { get; set; }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using VehicleRentingSystem.Utility;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,19 +32,31 @@
         <li class="nav-item">
                             <a class="nav-link " style="color:azure" asp-area="User" asp-controller="Post_Car" asp-action="Index">Car</a>
         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " style="color:azure" asp-area="Truck" asp-controller="Post_Truck" asp-action="Index">Truck</a>
-                        </li>
-@*        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:azure">Admin</a>
-          <div class="dropdown-menu">
-          <a class="nav-link " asp-area="User" asp-controller="City" asp-action="Index">City</a>
-          <a class="nav-link " asp-area="User" asp-controller="Post_Car" asp-action="Index">PostCar</a>
-          <a class="nav-link " asp-area="User" asp-controller="Profile" asp-action="Index">Profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </li>*@
+        <li class="nav-item">
+            <a class="nav-link " style="color:azure" asp-area="Truck" asp-controller="Post_Truck" asp-action="Index">Truck</a>
+        </li>
+        @if(User.IsInRole(SD.Role_Admin))
+        {
+            <li class="nav-item">
+                <a class="nav-link " style="color:azure" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " style="color:azure" asp-area="User" asp-controller="Profile" asp-action="Index">Profile</a>
+            </li>
+        }
+       @* @if(User.IsInRole(SD.Role_Admin))
+        {
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:azure">Admin</a>
+              <div class="dropdown-menu">
+              <a class="nav-link " asp-area="User" asp-controller="City" asp-action="Index">City</a>
+              <a class="nav-link " asp-area="User" asp-controller="Post_Car" asp-action="Index">PostCar</a>
+              <a class="nav-link " asp-area="User" asp-controller="Profile" asp-action="Index">Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li>
+        }*@
       </ul>
       <partial name="_LoginPartial" />
          @* <form class="d-flex">
