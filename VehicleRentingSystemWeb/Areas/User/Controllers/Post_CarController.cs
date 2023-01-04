@@ -27,18 +27,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
         {
             IEnumerable<Post_Car> objPostList = _unitOfWork.Post_Car.GetAll();
 
-            //var post = _unitOfWork.Bid.GetAll(u => u.ApplicationUserId == claim.Value);
-            //if (post.Count() != null)
-            //{
-            //    foreach (var item in post)
-            //    {
-            //        if (item.Confirmed == true)
-            //        {
-            //            var confirmedPost = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == item.PostId);
-            //            confirmedPost.Confirm = true;
-            //        }
-            //    }
-            //}
+            
             foreach(var item in objPostList)
             {
                 var post = _unitOfWork.Bid.GetAll(u => u.PostId==item.Id);
@@ -46,8 +35,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
                 {
                     if (item2.Confirmed == true)
                     {
-                        //var confirmedPost = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == item.PostId);
-                        //confirmedPost.Confirm = true;
+                        
                         item.Confirm = true;
                     }
                 }

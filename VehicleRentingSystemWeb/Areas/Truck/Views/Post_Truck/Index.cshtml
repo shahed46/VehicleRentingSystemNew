@@ -36,8 +36,15 @@ flex-direction:column;
                             </div>
 
                         </div>
+                        @if(post.Confirm==true)
+                        {
+                            <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" asp-route-truckpostId="@post.Id" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #ed213a, #93291e);">
+                               Confirmed & Go to history
+                            </a>
+                            
+                        }
 
-                        @if (User.IsInRole("User"))
+                        else if (User.IsInRole("User"))
                         {
                             <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" asp-route-truckpostId="@post.Id" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #360033, #0b8793);">
                                 Bidding history

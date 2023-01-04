@@ -9,7 +9,8 @@ namespace VehicleRentingSystem.Models.ViewModels
     public class PostVM
     {
         public IEnumerable<Post_Car> objPostCart { get; set; }
-		public IEnumerable<Post_Truck> objPostTruck { get; set; }
-		public Bid Bid { get; set; }
+        public IEnumerable<Post_Truck> objPostTruck { get; set; }
+        public Bid Bid { get; set; }
+        public TruckBid truckBid { get; set; }
     }
 }

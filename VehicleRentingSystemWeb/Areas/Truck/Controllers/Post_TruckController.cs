@@ -25,28 +25,31 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
         }
         public IActionResult Index()
         {
-            //IEnumerable<Post_Truck> objPostTruckyList = _unitOfWork.Post_Truck.GetAll(includeProperties: "Bid");
-            //return View(objPostTruckyList);
+            IEnumerable<Post_Truck> objPostList = _unitOfWork.Post_Truck.GetAll();
+
+
+            foreach (var item in objPostList)
+            {
+                var post = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == item.Id);
+                foreach (var item2 in post)
+                {
+                    if (item2.Confirmed == true)
+                    {
+
+                        item.Confirm = true;
+                    }
+                }
+            }
+
             PostVM postVM = new()
             {
-                objPostTruck = _unitOfWork.Post_Truck.GetAll(),
-                
+                objPostTruck =  objPostList.OrderByDescending(u => u.Id),
+
             };
             return View(postVM);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Index(PostVM obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _unitOfWork.Bid.Add(obj);
-        //        _unitOfWork.Save();
-                
-        //    }
-        //    return View(obj);
-        //}     
+       
         //GET
         public IActionResult Create()
         {
