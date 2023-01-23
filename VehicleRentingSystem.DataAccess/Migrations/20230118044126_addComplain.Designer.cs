@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleRentingSystem.DataAccess;
 
@@ -11,9 +12,10 @@ using VehicleRentingSystem.DataAccess;
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230118044126_addComplain")]
+    partial class addComplain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,9 +288,6 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ComplainDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DriverName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DriverUserId")

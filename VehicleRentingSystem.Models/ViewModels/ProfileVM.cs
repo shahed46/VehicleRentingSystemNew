@@ -11,6 +11,8 @@ namespace VehicleRentingSystem.Models.ViewModels
         public  IEnumerable<Post_Car> post_Cars { get; set; }
         public IEnumerable<Bid> bidHistory { get; set; }
         public IEnumerable<ApplicationUser> applicationUser { get; set; }
-        
+        public bool? showComplainButton { get; set; }
+        public string? DriverId { get; set; }
+
     }
 }

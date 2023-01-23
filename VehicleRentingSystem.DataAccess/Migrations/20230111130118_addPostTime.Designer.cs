@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleRentingSystem.DataAccess;
 
@@ -11,9 +12,10 @@ using VehicleRentingSystem.DataAccess;
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230111130118_addPostTime")]
+    partial class addPostTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,35 +275,6 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("VehicleRentingSystem.Models.Complain", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ComplainDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DriverName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DriverUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Complain");
-                });
-
             modelBuilder.Entity("VehicleRentingSystem.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -358,10 +331,10 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PostTime")
+                    b.Property<DateTime?>("PostTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("TargetTime")
+                    b.Property<DateTime?>("TargetTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -550,17 +523,6 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Post_Car");
-                });
-
-            modelBuilder.Entity("VehicleRentingSystem.Models.Complain", b =>
-                {
-                    b.HasOne("VehicleRentingSystem.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("VehicleRentingSystem.Models.Post_Car", b =>

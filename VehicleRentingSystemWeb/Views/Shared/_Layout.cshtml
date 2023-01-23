@@ -40,9 +40,12 @@
             <li class="nav-item">
                 <a class="nav-link " style="color:azure" asp-area="Identity" asp-page="/Account/Register">Register</a>
             </li>
-           @* <li class="nav-item">
-                <a class="nav-link " style="color:azure" asp-area="User" asp-controller="Profile" asp-action="Index">Profile</a>
-            </li>*@
+            <li class="nav-item">
+                <a class="nav-link " style="color:azure" asp-area="Admin" asp-controller="User" asp-action="Index">UserList</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " style="color:azure" asp-area="Admin" asp-controller="User" asp-action="Complain">ComplainList</a>
+            </li>
         }
        @* @if(User.IsInRole(SD.Role_Admin))
         {
@@ -83,17 +86,20 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-<footer class=" border-top" style="
-    position: fixed;
+@*<footer class=" border-top" style="
+    
    left: 0;
    bottom: 0;
    width: 100%;
-   margin-top:200px;
+   margin-top:525px;
+   
+   
+   
 ">
     <div class="container">
         &copy; 2022 - VehicleRentingSystem developed by C181044 and C181072 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
-</footer>
+</footer>*@
 
 @*<script type="text/javascript">
     var nav=document.getElementById('nav')

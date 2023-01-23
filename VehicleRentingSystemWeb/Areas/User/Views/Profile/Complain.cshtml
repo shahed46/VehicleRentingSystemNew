@@ -1,0 +1,60 @@
+﻿@model Complain
+<div class="row " style="margin-top:10%">
+	<div class="col-7">
+<form method="post" asp-action="Complain" enctype="multipart/form-data">
+			<input hidden asp-for="DriverUserId" />
+
+	<div class="row" >
+		<div class="col-10">
+			<div class="border rounded-3 p-3 mt-4 row" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
+				<div class="col-12 pb-2" >
+
+					<hr />
+				</div>
+						@*<div asp-validation-summary="All"></div>*@
+				<div class="mb-3">
+							<label style="color:indigo" asp-for="DriverName"> </label>
+					<input asp-for="DriverName"  class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
+					
+				</div>
+				
+				<div class="mb-3">
+					<label style="color:indigo" asp-for="ComplainDescription" ></label>
+					<textarea asp-for="ComplainDescription"  class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);"></textarea>
+					<span asp-validation-for="ComplainDescription" class="text-danger"></span>
+				</div>
+
+
+
+
+
+			<button type="submit" class="btn btn-primary" style="width:150px">Submit</button>
+
+				<a asp-controller="Profile" asp-action="Index" class="btn btn-secondary" style="width:150px">
+					Back to Profile
+				</a>
+				</div>
+			</div>
+		</div>
+
+
+
+
+</form>
+</div>
+	<div class="col-5 p-5" style="background-image: url('../../../images/background images/loginbackground.jpg');background-size: 100%; background-repeat:no-repeat; background-position:center">
+
+</div>
+
+</div>
+
+@*server side validation*@
+
+@section scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+
+	}
+
+
+}

@@ -38,12 +38,21 @@
 
                 </div>
                 
+
+                
         </div>
        
     }
-        
-        
-</div>
+        @if (User.IsInRole("User") && Model.showComplainButton==true)
+        {
+            <a asp-area="User" asp-controller="Profile" asp-action="Complain" asp-route-driverId="@Model.DriverId" class="btn btn-primary">Complain</a>
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-driverId="@Model.DriverId" class="btn btn-primary" style="width:180px;margin-left:105px;background-color:#F21331">Ban</a>
+        }
+
+    </div>
     <div class="col-8 overflow-hidden " style="margin-left:450px; margin-top:72px; ">
         
             @foreach (var item in Model.post_Cars)
@@ -126,8 +135,8 @@
                                 </div>
 
 
-                                <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@item.Id" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;background: linear-gradient(to right, #360033, #0b8793);">
-                                    Bidding history
+                                <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@item.Id" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;background: linear-gradient(to right, #ffe000, #799f0c);">
+                                    Winner & Check history
                                 </a>
 
                             </div>

@@ -95,6 +95,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
                         post_Cars = _unitOfWork.Post_Car.GetAll(u => u.ApplicationUserId == claim.Value),
                         applicationUser = _unitOfWork.ApplicationUser.GetAll(u => u.Id == claim.Value),
                         bidHistory = _unitOfWork.Bid.GetAll(u => u.Confirmed == true),
+                        
 
                     };
                     return View(profileVM);
@@ -141,11 +142,48 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
                 profileVM.post_Cars = objPostList;
                 
                 profileVM.applicationUser = _unitOfWork.ApplicationUser.GetAll(u => u.Id == userId);
+                profileVM.showComplainButton = true;
+                profileVM.DriverId = userId;
                 return View(profileVM);
 
             }
             
         }
+
+
+        //Get
+        public IActionResult Complain( string? driverId)
+        {
+
+            Complain complain = new();
+            complain.DriverUserId = driverId;
+            return View(complain);
+
+        }
+
+        //POST 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //[Authorize]
+        public IActionResult Complain(Complain obj)
+        {
+			//getting logged user id
+
+			var claimsIdentity = (ClaimsIdentity)User.Identity;
+			var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            //getting logged user id end
+
+            obj.ApplicationUserId = claim.Value;
+
+
+			_unitOfWork.Complain.Add(obj);
+			_unitOfWork.Save();
+
+
+			return RedirectToAction(nameof(Index));
+
+		}
 
 
     }
