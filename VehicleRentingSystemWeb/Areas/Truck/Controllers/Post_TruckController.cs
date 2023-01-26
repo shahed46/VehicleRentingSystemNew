@@ -25,11 +25,32 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
         }
         public IActionResult Index()
         {
+
+
             IEnumerable<Post_Truck> objPostList = _unitOfWork.Post_Truck.GetAll();
 
 
             foreach (var item in objPostList)
             {
+                //remaining time counting
+                DateTime dateTime = DateTime.Now;
+
+                TimeSpan remainingTime = dateTime.Subtract(item.TargetTime);
+
+
+                if (remainingTime.Hours == 0 && remainingTime.Minutes < 0 || remainingTime.Hours == 1 && remainingTime.Minutes < 0)
+                {
+                    item.DewTime = Math.Abs(remainingTime.Minutes);
+                }
+                else
+                {
+                    item.DewTime = 0;
+                    item.TimeOver = true;
+                }
+
+                //remaining time counting end
+
+
                 var post = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == item.Id);
                 foreach (var item2 in post)
                 {
@@ -70,6 +91,14 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             //getting logged user id end
+
+            //countDown timer
+            DateTime dateTime = DateTime.Now;
+            obj.PostTime = dateTime;
+            obj.TargetTime = dateTime.AddMinutes(30);
+
+            //countDown timer end
+
             string wwwRootPath = _hostEnvironment.WebRootPath;
 			if (file != null)
 			{
@@ -271,6 +300,21 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        //Summary
+
+        public IActionResult Summary(int postId)
+        {
+            Post_Truck post = _unitOfWork.Post_Truck.GetFirstOrDefault(u => u.Id == postId,  includeProperties: "ApplicationUser");
+            TruckBid bidding = _unitOfWork.TruckBid.GetFirstOrDefault(u => u.TruckPostId == postId && u.Confirmed == true, includeProperties: "ApplicationUser");
+            SummaryVM summary = new()
+            {
+                postTruck = post,
+                bidTruck = bidding,
+            };
+
+            return View(summary);
         }
 
     }

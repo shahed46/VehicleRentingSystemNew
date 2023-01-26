@@ -272,7 +272,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 
         public IActionResult Summary(int postId)
         {
-            Post_Car post=_unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == postId);
+            Post_Car post=_unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == postId, includeProperties: "ApplicationUser");
             Bid bidding=_unitOfWork.Bid.GetFirstOrDefault(u=>u.PostId==postId && u.Confirmed==true, includeProperties: "ApplicationUser");
             SummaryVM summary = new()
             {
