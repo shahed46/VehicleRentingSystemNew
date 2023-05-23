@@ -12,8 +12,8 @@ using VehicleRentingSystem.DataAccess;
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221130044524_addProfilePic")]
-    partial class addProfilePic
+    [Migration("20221218055210_addWholeProject")]
+    partial class addWholeProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -322,8 +322,8 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.Property<int>("NumberOfPassenger")
                         .HasColumnType("int");
 
-                    b.Property<string>("PickUpDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("PickUpDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PickUpLocation")
                         .IsRequired()

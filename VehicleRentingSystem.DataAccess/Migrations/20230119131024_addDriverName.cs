@@ -4,13 +4,13 @@
 
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
-    public partial class addProfilePic : Migration
+    public partial class addDriverName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ProfilePic",
-                table: "AspNetUsers",
+                name: "DriverName",
+                table: "Complain",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -18,8 +18,8 @@ namespace VehicleRentingSystem.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ProfilePic",
-                table: "AspNetUsers");
+                name: "DriverName",
+                table: "Complain");
         }
     }
 }

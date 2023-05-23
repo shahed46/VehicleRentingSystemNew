@@ -24,5 +24,7 @@ namespace VehicleRentingSystem.Models
         public ApplicationUser ApplicationUser { get; set; }
         [NotMapped]
         public bool? booked { get; set; }
+        [NotMapped]
+        public double? MinBid { get; set; }
     }
 }

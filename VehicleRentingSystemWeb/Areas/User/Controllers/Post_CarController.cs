@@ -23,13 +23,48 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+
+        
         public IActionResult Index()
         {
             IEnumerable<Post_Car> objPostList = _unitOfWork.Post_Car.GetAll();
-            //return View(objPostCaryList);
+
+            
+            foreach(var item in objPostList)
+            {
+                //remaining time counting
+                DateTime dateTime = DateTime.Now;
+
+                TimeSpan remainingTime = dateTime.Subtract(item.TargetTime);
+
+
+                if (remainingTime.Hours==0 && remainingTime.Minutes<0 || remainingTime.Hours==1 && remainingTime.Minutes<0)
+                {
+                    item.DewTime = Math.Abs(remainingTime.Minutes);
+                }
+                else
+                {
+                    item.DewTime = 0;
+                    item.TimeOver = true;
+                }
+
+                //remaining time counting end
+
+
+                var post = _unitOfWork.Bid.GetAll(u => u.PostId==item.Id);
+                foreach(var item2 in post)
+                {
+                    if (item2.Confirmed == true)
+                    {
+                        
+                        item.Confirm = true;
+                    }
+                }
+            }
+
             PostVM postVM = new()
             {
-                //objPostCart = _unitOfWork.Post_Car.GetAll(),
+                
                 objPostCart = objPostList.OrderByDescending(u=>u.Id),
 
             };
@@ -40,18 +75,7 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 
         
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Index(PostVM obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _unitOfWork.Bid.Add(obj);
-        //        _unitOfWork.Save();
-
-        //    }
-        //    return View(obj);
-        //}     
+         
         //GET
         public IActionResult Create()
         {
@@ -72,6 +96,13 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             //getting logged user id end
+
+            //countDown timer
+            DateTime dateTime= DateTime.Now;
+            obj.PostTime = dateTime;
+            obj.TargetTime= dateTime.AddMinutes(30);
+
+            //countDown timer end
 
             obj.ApplicationUserId = claim.Value;
 
@@ -204,7 +235,10 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
             return View(biddingHistory);
         }
 
-        
+
+       
+
+
 
         public IActionResult Confirm(int bidId)
         {
@@ -231,31 +265,22 @@ namespace VehicleRentingSystemWeb.Areas.User.Controllers
 
             return RedirectToAction(nameof(BiddingHistory));
 
-            //try
-            //{
-            //    //getting logged user id
+            
+        }
 
-            //    var claimsIdentity = (ClaimsIdentity)User.Identity;
-            //    var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+        //Summary
 
-            //    //getting logged user id end
-            //    var bidItem = _unitOfWork.Bid.GetFirstOrDefault(u => u.Id == bidId);
-            //    var postOwner = _unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == bidItem.PostId);
-            //    if (postOwner.ApplicationUserId == claim.Value)
-            //    {
-            //        bidItem.Confirmed = true;
-            //        _unitOfWork.Bid.Update(bidItem);
-            //        _unitOfWork.Save();
+        public IActionResult Summary(int postId)
+        {
+            Post_Car post=_unitOfWork.Post_Car.GetFirstOrDefault(u => u.Id == postId, includeProperties: "ApplicationUser");
+            Bid bidding=_unitOfWork.Bid.GetFirstOrDefault(u=>u.PostId==postId && u.Confirmed==true, includeProperties: "ApplicationUser");
+            SummaryVM summary = new()
+            {
+                post= post,
+                bid= bidding,
+            };
 
-            //    }
-
-
-            //}
-            //catch (Exception)
-            //{
-            //    ViewBag.Message = "You are not allowed";
-            //}
-            //return RedirectToAction(nameof(Index));
+            return View(summary);
         }
 
     }

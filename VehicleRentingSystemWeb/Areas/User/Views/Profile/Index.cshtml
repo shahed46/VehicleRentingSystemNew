@@ -2,78 +2,155 @@
 
 <div class="row p-2">
    
-    <div class="col-4 bg-light border border-2">
+    <div class="col-4 bg-light border border-2 position-fixed overflow-hidden"
+    style="margin-top:65px;
+    background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+    flex-direction: column;
+    height: 578px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
     @foreach(var item in Model.applicationUser)
     {
             
               <div class="row">
 
                 <div class="col-12 border-right">
-                    <div class=" align-items-center text-center p-3"><img class="rounded-circle mt-5" width="150px" src="@item.ProfilePic"  /><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+                    <div class=" align-items-center text-center p-3"><img class="rounded-circle mt-5" width="150px" src="@item.ProfilePic"/><span> </span></div>
                 </div>
                  <div class="col-12 text-sm-center  text-lg-left">
-                     <h5><strong>@item.Name</strong></h5>
+                     <h5><strong>Name: @item.Name</strong></h5>
                             
                  </div>
                 <div class="col-12 text-sm-center  text-lg-left">
-                    <h5><strong>@item.City</strong></h5>
+                    <h5><strong>City: @item.City</strong></h5>
 
                 </div>
                 <div class="col-12 text-sm-center  text-lg-left">
-                    <h5><strong>@item.Area</strong></h5>
+                    <h5><strong>Area: @item.Area</strong></h5>
 
                 </div>
+                
                 <div class="col-12 text-sm-center  text-lg-left">
                     <h5>@item.LicenseNo</h5>
 
                 </div>
+                <div class="col-12 text-sm-center  text-lg-left">
+                    <h5>@item.VehicleNo</h5>
+
+                </div>
+                
+
+                
         </div>
        
     }
+        @if (User.IsInRole("User") && Model.showComplainButton==true)
+        {
+            <a asp-area="User" asp-controller="Profile" asp-action="Complain" asp-route-driverId="@Model.DriverId" class="btn btn-primary">Complain</a>
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <a asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-driverId="@Model.DriverId" class="btn btn-primary" style="width:180px;margin-left:105px;background-color:#F21331">Ban</a>
+        }
+
+    </div>
+    <div class="col-8 overflow-hidden " style="margin-left:450px; margin-top:72px; ">
         
-        
-</div>
-<div class="col-8">
-    @foreach(var item in Model.post_Cars)
-    {
-        <div class="col-lg-10 col-md-6">
-            <div class="row p-2">
-                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius:5px;">
-                    <div class="card">
+            @foreach (var item in Model.post_Cars)
+            {
+                if (item.Confirm != true)
+                {
 
 
-                        <div class="card-body">
-                            <div class="pl-1">
-                                    <p>Posted by:<b>@item.ApplicationUser.Name</b></p>
+
+                    <div class="col-lg-10 col-md-6" >
+                        <div class="row p-2" >
+                                    <div class="col-12 p-1" >
+                                        <div class="card" style="background: linear-gradient(to right, #83a4d4, #b6fbff);">
+
+
+                                            <div class="card-body">
+                                                @*<div class="pl-1 text-white">
+                                                <p>Posted by: <a asp-area="User" asp-controller="Profile" asp-action="Index" 
+                                                asp-route-userId="@item.ApplicationUser.Id" style="text-decoration: none; color:darkblue"><b>@item.ApplicationUser.Name</b>
+                                                </a></p>
+
+                                        </div>*@
+                                                <div class="pl-1">
+                                                    <p class="card-title h5" style="color:#00FF33"><b style="color:white">Pickup Location:</b> @item.PickUpLocation</p>
+                                                    <p class="card-title  text-danger"><b style="color:white">Dropout Location:</b> @item.DropOutLoaction</p>
+                                                </div>
+                                                <div class="pl-1 text-white" >
+                                                    <p>Number of passenger: <b>@item.NumberOfPassenger.ToString("0.00")</b></p>
+
+                                                </div>
+                                                <div class="row pl-2 text-white">
+                                                    <p>@Html.Raw(item.Description)</p>
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@item.Id" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;background: linear-gradient(to right, #360033, #0b8793);">
+                                                Bidding history
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-10 col-md-6">
+                    <div class="row p-2">
+                        <div class="col-12 p-1">
+                            <div class="card" style="background: linear-gradient(to right, #11998e, #38ef7d);">
+
+
+                                <div class="card-body">
+                                    @*<div class="pl-1 text-white">
+                            <p>Posted by: <a asp-area="User" asp-controller="Profile" asp-action="Index"
+                            asp-route-userId="@item.ApplicationUser.Id" style="text-decoration: none; color:darkblue"><b>@item.ApplicationUser.Name</b>
+                            </a></p>
+
+                            </div>*@
+                                    <div class="pl-1">
+                                        <p class="card-title h5" style="color:#00FF33"><b style="color:white">Pickup Location:</b> @item.PickUpLocation</p>
+                                        <p class="card-title  text-danger"><b style="color:white">Dropout Location:</b> @item.DropOutLoaction</p>
+                                    </div>
+                                    <div class="pl-1 text-white">
+                                        <p>Number of passenger: <b>@item.NumberOfPassenger.ToString("0.00")</b></p>
+
+                                    </div>
+                                    <div class="row pl-2 text-white">
+                                        <p>@Html.Raw(item.Description)</p>
+                                    </div>
+
+
+                                </div>
+
+
+                                <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@item.Id" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;background: linear-gradient(to right, #ffe000, #799f0c);">
+                                    Winner & Check history
+                                </a>
 
                             </div>
-                            <div class="pl-1">
-                                <p class="card-title h5 text-primary">@item.PickUpLocation</p>
-                                <p class="card-title  text-info">@item.DropOutLoaction</p>
-                            </div>
-                            <div class="pl-1">
-                                <p>Number of passenger: <b>@item.NumberOfPassenger.ToString("0.00")</b></p>
-
-                            </div>
-                            <div class="row pl-2">
-                                <p class="text-secondary">@Html.Raw(item.Description)</p>
-                            </div>
-
 
                         </div>
-                       
-
-                        <a asp-area="User" asp-controller="Post_Car" asp-action="BiddingHistory" asp-route-postId="@item.Id" class="btn btn-success form-control  btn-square btn-lg" style="height:50px;">
-                            Bidding history
-                            </a>
 
                     </div>
 
                 </div>
-
-            </div>
-
-        </div>
-    }
-</div>
+                
+            }
+               
+            }
+       
+        
+    </div>
 </div>

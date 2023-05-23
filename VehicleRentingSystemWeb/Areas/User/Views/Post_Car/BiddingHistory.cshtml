@@ -8,7 +8,7 @@
 <form method="post">
     <br />
     
-    <div class="container" >
+    <div class="container mt-5" >
         <div class="card" >
             <div class="card-header bg-dark text-light ml-0" styel="  background: linear-gradient(to right, #000046, #1cb5e0);">
                 
@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-12 text-sm-center col-lg-4 text-lg-left">
                            @* <h5><strong>@item.ApplicationUser.Name</strong></h5>*@
-                            <a asp-area="User" asp-controller="Profile" asp-action="Index" asp-route-userId="@item.ApplicationUser.Id" style="text-decoration: none">@item.ApplicationUser.Name</a>
+                            <a asp-area="User" asp-controller="Profile" asp-action="Index" asp-route-userId="@item.ApplicationUser.Id" style="text-decoration: none"><h4>@item.ApplicationUser.Name</h4></a>
 
                         </div>
                         <div class="col-12 text-sm-center col-lg-4 text-lg-left">
@@ -86,6 +86,11 @@
     </div>
 
 </form>
+<script>
+    fetch('https://localhost:44352/User/Post_Car/BiddingHistory?postId=4')
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+</script>
 
 
 

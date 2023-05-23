@@ -25,28 +25,52 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
         }
         public IActionResult Index()
         {
-            //IEnumerable<Post_Truck> objPostTruckyList = _unitOfWork.Post_Truck.GetAll(includeProperties: "Bid");
-            //return View(objPostTruckyList);
+
+
+            IEnumerable<Post_Truck> objPostList = _unitOfWork.Post_Truck.GetAll();
+
+
+            foreach (var item in objPostList)
+            {
+                //remaining time counting
+                DateTime dateTime = DateTime.Now;
+
+                TimeSpan remainingTime = dateTime.Subtract(item.TargetTime);
+
+
+                if (remainingTime.Hours == 0 && remainingTime.Minutes < 0 || remainingTime.Hours == 1 && remainingTime.Minutes < 0)
+                {
+                    item.DewTime = Math.Abs(remainingTime.Minutes);
+                }
+                else
+                {
+                    item.DewTime = 0;
+                    item.TimeOver = true;
+                }
+
+                //remaining time counting end
+
+
+                var post = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == item.Id);
+                foreach (var item2 in post)
+                {
+                    if (item2.Confirmed == true)
+                    {
+
+                        item.Confirm = true;
+                    }
+                }
+            }
+
             PostVM postVM = new()
             {
-                objPostTruck = _unitOfWork.Post_Truck.GetAll(),
-                
+                objPostTruck =  objPostList.OrderByDescending(u => u.Id),
+
             };
             return View(postVM);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Index(PostVM obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _unitOfWork.Bid.Add(obj);
-        //        _unitOfWork.Save();
-                
-        //    }
-        //    return View(obj);
-        //}     
+       
         //GET
         public IActionResult Create()
         {
@@ -67,6 +91,14 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             //getting logged user id end
+
+            //countDown timer
+            DateTime dateTime = DateTime.Now;
+            obj.PostTime = dateTime;
+            obj.TargetTime = dateTime.AddMinutes(30);
+
+            //countDown timer end
+
             string wwwRootPath = _hostEnvironment.WebRootPath;
 			if (file != null)
 			{
@@ -97,9 +129,22 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
 
         public IActionResult Auction(int postId)
         {
+            double? lowest;
+            IEnumerable<TruckBid>? bidList = _unitOfWork.TruckBid.GetAll(u => u.TruckPostId == postId);
+            if (bidList.Count() != 0)
+            {
+                lowest = bidList.Min(u => u.Bidding);
+            }
+            else
+            {
+                lowest = 0;
+            }
+
+
             TruckBid truckbid = new TruckBid()
             {
                 TruckPostId = postId,
+                MinBid=lowest,
             };
 
 
@@ -255,6 +300,21 @@ namespace VehicleRentingSystemWeb.Areas.Truck.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        //Summary
+
+        public IActionResult Summary(int postId)
+        {
+            Post_Truck post = _unitOfWork.Post_Truck.GetFirstOrDefault(u => u.Id == postId,  includeProperties: "ApplicationUser");
+            TruckBid bidding = _unitOfWork.TruckBid.GetFirstOrDefault(u => u.TruckPostId == postId && u.Confirmed == true, includeProperties: "ApplicationUser");
+            SummaryVM summary = new()
+            {
+                postTruck = post,
+                bidTruck = bidding,
+            };
+
+            return View(summary);
         }
 
     }

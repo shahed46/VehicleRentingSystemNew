@@ -21,6 +21,8 @@ namespace VehicleRentingSystem.Models
         public string? VehicleNo { get; set; }
         public string? CarPicUrl { get; set; }
         public string? ProfilePic { get; set; }
+        [NotMapped]
+        public string? Role { get; set; }
 
 
 

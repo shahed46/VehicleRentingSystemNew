@@ -18,12 +18,20 @@ namespace VehicleRentingSystem.Models
         public int NumberOfPassenger { get; set; }
         public string? Description { get; set; }
         public DateTime? PickUpDate { get; set; }
+        public DateTime PostTime { get; set; }
+        public DateTime TargetTime { get; set; }
 
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
 
         public ApplicationUser ApplicationUser { get; set; }
+        [NotMapped]
+        public bool Confirm { get; set; }
+        [NotMapped]
+        public int? DewTime { get; set; }
+        [NotMapped]
+        public bool? TimeOver { get; set; }
 
 
     }

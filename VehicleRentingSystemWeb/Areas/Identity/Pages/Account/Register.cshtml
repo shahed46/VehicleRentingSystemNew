@@ -1,4 +1,5 @@
 ﻿@page
+@using VehicleRentingSystem.Utility;
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -6,13 +7,21 @@
 
 @*<h1>@ViewData["Title"]</h1>*@
 
-<div class="row p-3">
+<div class="row p-3 mt-5">
     <div class=" border rounded-3 col-6 p-3" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
 
 
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-            <h2 style="text-align:center; color:darkblue; font-family:'Times New Roman', Times, serif">Sign up</h2>
-              <h5 style="text-align:center">Create a new account.</h5>
+            @if(User.IsInRole(SD.Role_Admin))
+            {
+                <h2 style="text-align:center; color:darkblue; font-family:'Times New Roman', Times, serif">Register - Admin portal</h2>
+            }
+            else
+            {
+                <h2 style="text-align:center; color:darkblue; font-family:'Times New Roman', Times, serif">Sign up</h2>
+                <h5 style="text-align:center">Create a new account.</h5>
+            }
+            
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
@@ -42,11 +51,14 @@
                         <label asp-for="Input.PhoneNumber"></label>
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                     </div>
-                    <div class="form-floating p-2 ">
+                    <div class="form-floating p-2">
+                        <button id="registerSubmit" type="submit" class="col-6  btn  btn-primary " style="background: linear-gradient(to right, #000428, #004e92);">Register</button>
+                    </div>
+                    @*<div class="form-floating p-2 ">
                         <label style="color:indigo" asp-for="Input.ProfilePic">Profile picture</label>
                         <input type="file" name="file" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 
-                    </div>
+                    </div>*@
 
             </div>
                    
@@ -61,12 +73,18 @@
                         <label asp-for="Input.ConfirmPassword"></label>
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <div class="form-floating p-2">
-                                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
-                                    <option disabled selected>--Select Role--</option>
-                        </select>
-                    </div>
+                    <div class="form-floating p-2 ">
+                        <label style="color:indigo" asp-for="Input.ProfilePic">Profile picture</label>
+                        <input type="file" name="file" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 
+                    </div>
+                   
+                        <div class="form-floating p-2">
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);">
+                                <option disabled selected>--Select Role--</option>
+                            </select>
+                        </div>
+                    
 
                
                 <div id="Driver_section" style="display:none">
@@ -88,7 +106,7 @@
                
             </div>
 
-            <button id="registerSubmit" type="submit" class="col-6 p-2 btn  btn-primary " style="background: linear-gradient(to right, #000428, #004e92);">Register</button>
+            @*<button id="registerSubmit" type="submit" class="col-6 p-2 btn  btn-primary " style="background: linear-gradient(to right, #000428, #004e92);">Register</button>*@
           </form>
         </div>
      

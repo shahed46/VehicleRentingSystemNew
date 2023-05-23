@@ -1,5 +1,5 @@
 ﻿@model VehicleRentingSystem.Models.Post_Truck
-<div class="row">
+<div class="row" style="margin-top:10%">
 	<div class="col-5">
 		<form method="post" asp-action="Create" enctype="multipart/form-data">
 
@@ -29,7 +29,7 @@
 						</div>
 						<div class="mb-3 col-6">
 							<label style="color:indigo" asp-for="PickUpDate"></label>
-							<input asp-for="PickUpDate" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
+							<input type="datetime-local" asp-for="PickUpDate" class="form-control" style=" box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);" />
 							<span asp-validation-for="PickUpDate" class="text-danger"></span>
 						</div>
 						<div class="mb-3 ">

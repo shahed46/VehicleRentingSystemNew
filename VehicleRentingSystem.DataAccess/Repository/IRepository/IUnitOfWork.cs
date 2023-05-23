@@ -14,6 +14,7 @@ namespace VehicleRentingSystem.DataAccess.Repository.IRepository
         IApplicationUserRepository ApplicationUser { get; }
         IPost_TruckRepository Post_Truck { get; }
 		ITruckBidRepository TruckBid { get; }
-		void Save();
+        IComplainRepository Complain { get; }
+        void Save();
     }
 }

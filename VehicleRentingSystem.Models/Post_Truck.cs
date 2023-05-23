@@ -18,6 +18,8 @@ namespace VehicleRentingSystem.Models
         public string ProductName { get; set; }
         public string? Product_Des { get; set; }
         public string? PickUpDate { get; set; }
+        public DateTime PostTime { get; set; }
+        public DateTime TargetTime { get; set; }
         [ValidateNever]
         public string? ImageUrl { get; set; }
 
@@ -26,6 +28,12 @@ namespace VehicleRentingSystem.Models
         [ValidateNever]
 
         public ApplicationUser ApplicationUser { get; set; }
+        [NotMapped]
+        public bool Confirm { get; set; }
+        [NotMapped]
+        public int? DewTime { get; set; }
+        [NotMapped]
+        public bool? TimeOver { get; set; }
 
 
     }

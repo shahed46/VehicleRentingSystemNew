@@ -12,8 +12,8 @@ using VehicleRentingSystem.DataAccess;
 namespace VehicleRentingSystem.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221120202033_addAllTables")]
-    partial class addAllTables
+    [Migration("20230111130118_addPostTime")]
+    partial class addPostTime
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -246,12 +246,14 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.Property<bool?>("Confirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Bids");
                 });
@@ -322,12 +324,18 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.Property<int>("NumberOfPassenger")
                         .HasColumnType("int");
 
-                    b.Property<string>("PickUpDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("PickUpDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PickUpLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PostTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("TargetTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -392,6 +400,34 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                     b.ToTable("Tests");
                 });
 
+            modelBuilder.Entity("VehicleRentingSystem.Models.TruckBid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Bidding")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("Confirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TruckPostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("TruckBids");
+                });
+
             modelBuilder.Entity("VehicleRentingSystem.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -410,6 +446,9 @@ namespace VehicleRentingSystem.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePic")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VehicleNo")
@@ -477,7 +516,13 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("VehicleRentingSystem.Models.Post_Car", "Post_Car")
+                        .WithMany()
+                        .HasForeignKey("PostId");
+
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("Post_Car");
                 });
 
             modelBuilder.Entity("VehicleRentingSystem.Models.Post_Car", b =>
@@ -492,6 +537,17 @@ namespace VehicleRentingSystem.DataAccess.Migrations
                 });
 
             modelBuilder.Entity("VehicleRentingSystem.Models.Post_Truck", b =>
+                {
+                    b.HasOne("VehicleRentingSystem.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("VehicleRentingSystem.Models.TruckBid", b =>
                 {
                     b.HasOne("VehicleRentingSystem.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()

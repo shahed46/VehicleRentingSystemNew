@@ -19,15 +19,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.12" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +67,7 @@
     <None Include="Areas\Truck\Views\Post_Truck\BiddingHistory.cshtml" />
     <None Include="Areas\Truck\Views\Post_Truck\Create.cshtml" />
     <None Include="Areas\Truck\Views\Post_Truck\Index.cshtml" />
+    <None Include="Areas\Truck\Views\Post_Truck\Summary.cshtml" />
     <None Include="Areas\User\Views\Post_Car\Bid.cshtml" />
   </ItemGroup>
 

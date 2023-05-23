@@ -1,6 +1,6 @@
 ﻿@model VehicleRentingSystem.Models.ViewModels.PostVM
 
-<div class=" ">
+<div class=" " style="margin-top:8%">
     @if (User.IsInRole("User"))
     {
         <div class=" text-center pt-2">
@@ -19,14 +19,29 @@
 
                         <div class=" text-white row overflow-hidden p-2  " style="width:100%; height:100%">
                             <div class=" col-6  " style="  display: flex;
-flex-direction:column;
-  justify-content: center;
-  align-items: center; ">
+                                                            flex-direction:column;
+                                                              justify-content: center;
+                                                              align-items: center; ">
                                 <div class=" text-start">
                                     <p class="card-title  " style="color:#00FF33"><b style="color:white">Pickup Location:</b> @post.PickUpLocation</p>
                                     <p class="card-title  text-danger"><b style="color:white">Dropout Location:</b> @post.DropOutLoaction</p>
-                                    <p class="card-title  ">Number Of Passenger: <b>@post.ProductName</b></p>
+                                    <p class="card-title  ">Product Name: <b>@post.ProductName</b></p>
+                                    <p class="card-title  ">Pickup Date: <b>@post.PickUpDate</b></p>
                                     <p class="text-black card-title">@Html.Raw(post.Product_Des)</p>
+                                    @if (post.TimeOver != true)
+                                    {
+
+                                        <h2 class="card-title  ">Remaining Time: <b>@post.DewTime</b></h2>
+
+                                           
+                                    }
+                                    else
+                                    {
+                                        
+                                                <h2 class="card-title  " style="color:maroon">Time Over </h2>
+
+                                           
+                                    }
                                 </div>
                                
                                
@@ -36,19 +51,43 @@ flex-direction:column;
                             </div>
 
                         </div>
+                        @if(post.Confirm==true)
+                        {
+                            <div class="row">
+                            <div class="col-md-6">
+                                    <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" class="btn form-control  btn-square btn-lg" asp-route-truckpostId="@post.Id" style="height:50px; color:white;  background: linear-gradient(to right, #ed213a, #93291e);">
+                                   Confirmed & Go to history
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                    <a asp-area="Truck" asp-controller="Post_Truck" asp-action="Summary" class="btn  form-control btn-square btn-lg" style=" background: linear-gradient(to right, #ed213a, #93291e); color:white" asp-route-postId="@post.Id">
+                                    Ride Summary
+                                </a>
+                            </div>
+                            </div>
+                            
+                        }
 
-                        @if (User.IsInRole("User"))
+                        else if (User.IsInRole("User"))
                         {
                             <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" asp-route-truckpostId="@post.Id" class="btn form-control  btn-square btn-lg" style="height:50px; color:white;  background: linear-gradient(to right, #360033, #0b8793);">
                                 Bidding history
                             </a>
                         }
-                        else
+                        else if (User.IsInRole("Driver"))
                         {
-
-                            <a asp-action="Auction" class="btn  form-control" style="background: linear-gradient(to right, #360033, #0b8793); color:white" asp-route-postId="@post.Id">
-                                Go For Bid
-                            </a>
+                            if (post.TimeOver == true)
+                            {
+                                <a asp-area="Truck" asp-controller="Post_Truck" asp-action="BiddingHistory" class="btn  form-control" style=" background: linear-gradient(to right, #ed213a, #93291e); color:white" asp-route-postId="@post.Id">
+                                    Go to history
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-area="Truck" asp-controller="Post_Truck" asp-action="Auction" class="btn  form-control" style="background: linear-gradient(to right, #360033, #0b8793); color:white" asp-route-postId="@post.Id">
+                                    Go For Bid
+                                </a>
+                            }
                         }
                     </div>
 

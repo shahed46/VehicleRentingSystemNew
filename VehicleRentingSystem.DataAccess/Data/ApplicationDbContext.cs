@@ -21,7 +21,8 @@ namespace VehicleRentingSystem.DataAccess
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Post_Truck> Post_Trucks { get; set; }
 		public DbSet<TruckBid> TruckBids { get; set; }
+        public DbSet<Complain> Complain { get; set; }
 
 
-	}
+    }
 }
