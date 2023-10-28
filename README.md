@@ -1,6 +1,10 @@
 # VehicleRentingSystemNew
-VehicleRentingSystem is an innovative platform that brings together ride-sharing and truck hiring to make your journeys hassle-free and cost-effective. With the Vehicle Renting System, you can access a wide range of transportation options, from minivan rentals to long-distance rides, all at your fingertips.
+VehicleRentingSystem is an innovative platform that brings together ride-sharing and truck hiring to make your journeys hassle-free and cost-effective. With the Vehicle Renting System, you can access a wide range of transportation options, from minivan rentals to long-distance rides, all at your fingertips. 
+
+
 Project Objectives:
+
+
 The Vehicle Renting System has a set of clear objectives to ensure the platform's success and the satisfaction of its users. These objectives include:
 
 Specialized Services: The system focuses on serving minivan and truck owners who may face difficulties renting vehicles for various reasons.
